@@ -6,6 +6,7 @@ from services.registro_tiempo_service import RegistroTiempoService
 from services.asignacion_service import AsignacionService
 from services.usuario_service import UsuarioService
 
+from models.empleado import Empleado
 from utils.validators import *
 from exceptions.custom_exceptions import *
 
@@ -25,13 +26,22 @@ def menu_empleados(emp):
 
     if opc == "1":
         try:
+            import datetime
             nombre = validar_texto(input("Nombre: "))
             direccion = validar_texto(input("Dirección: "))
             telefono = validar_texto(input("Teléfono: "))
             email = validar_email(input("Email: "))
-            fecha = input("Fecha inicio (YYYY-MM-DD): ")
+            fecha_str = input("Fecha inicio (YYYY-MM-DD): ")
+            try:
+                fecha = datetime.datetime.strptime(fecha_str, "%Y-%m-%d").date()
+            except ValueError:
+                print("❌ Error: Formato de fecha inválido. Use YYYY-MM-DD.")
+                return
             salario = validar_numero(input("Salario: "))
-            emp.crear_empleado(nombre, direccion, telefono, email, fecha, salario)
+            empleado = Empleado(None, fecha, salario, nombre, direccion, telefono, email)
+            creado = emp.crear(empleado)
+            if creado:
+                print("Empleado creado con éxito.")
         except Exception as e:
             print("❌ Error:", e)
 
@@ -44,7 +54,8 @@ def menu_empleados(emp):
             nombre = input("Nuevo nombre: ")
             direccion = input("Nueva dirección: ")
             telefono = input("Nuevo teléfono: ")
-            emp.actualizar_empleado(id_emp, nombre, direccion, telefono)
+            empleado = Empleado(id_emp, None, None, nombre, direccion, telefono, None)
+            emp.actualizar(empleado)
         except Exception as e:
             print("❌ Error:", e)
 

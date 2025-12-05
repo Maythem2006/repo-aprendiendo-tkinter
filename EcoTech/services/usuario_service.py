@@ -16,7 +16,7 @@ class UsuarioService:
             password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
             query = """
-                INSERT INTO usuario (username, password_hash, rol, id_empleado)
+                INSERT INTO USUARIO (username, password_hash, rol, id_empleado)
                 VALUES (:1, :2, :3, :4)
             """
 
@@ -33,7 +33,7 @@ class UsuarioService:
         try:
             self.db.cursor.execute("""
                 SELECT id_usuario, username, rol, id_empleado
-                FROM usuario
+                FROM USUARIO
                 ORDER BY id_usuario
             """)
             return self.db.cursor.fetchall()
@@ -71,7 +71,7 @@ class UsuarioService:
                 print("⚠ No hay nada que actualizar.")
                 return
 
-            query = f"UPDATE usuario SET {', '.join(campos)} WHERE id_usuario = :{len(valores) + 1}"
+            query = f"UPDATE USUARIO SET {', '.join(campos)} WHERE id_usuario = :{len(valores) + 1}"
             valores.append(id_usuario)
 
             self.db.ejecutar(query, tuple(valores))
@@ -85,7 +85,7 @@ class UsuarioService:
     # ================================
     def eliminar(self, id_usuario):
         try:
-            self.db.ejecutar("DELETE FROM usuario WHERE id_usuario = :1", (id_usuario,))
+            self.db.ejecutar("DELETE FROM USUARIO WHERE id_usuario = :1", (id_usuario,))
             print("✔ Usuario eliminado correctamente.")
 
         except Exception as e:

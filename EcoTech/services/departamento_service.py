@@ -9,7 +9,7 @@ class DepartamentoService:
     def crear(self, nombre, id_gerente=None):
         try:
             query = """
-                INSERT INTO departamento (nombre, id_gerente)
+                INSERT INTO DEPARTAMENTO (nombre, id_gerente)
                 VALUES (:1, :2)
             """
             self.db.ejecutar(query, (nombre, id_gerente))
@@ -19,7 +19,7 @@ class DepartamentoService:
 
     def listar(self):
         try:
-            self.db.cursor.execute("SELECT * FROM departamento")
+            self.db.cursor.execute("SELECT * FROM DEPARTAMENTO")
             return self.db.cursor.fetchall()
         except Exception as e:
             print("❌Error al listar departamentos:", e)
@@ -27,7 +27,7 @@ class DepartamentoService:
     def actualizar(self, id_dep, nombre, id_gerente):
         try:
             query = """
-                UPDATE departamento
+                UPDATE DEPARTAMENTO
                 SET nombre=:1, id_gerente=:2
                 WHERE id_departamento=:3
             """
@@ -39,7 +39,7 @@ class DepartamentoService:
     def eliminar(self, id_dep):
         try:
             self.db.ejecutar(
-                "DELETE FROM departamento WHERE id_departamento=:1",
+                "DELETE FROM DEPARTAMENTO WHERE id_departamento=:1",
                 (id_dep,)
             )
             print("✔ Departamento eliminado.")

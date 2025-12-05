@@ -10,7 +10,7 @@ class EmpleadoService:
     def crear(self, empleado: Empleado):
         try:
             query = """
-            INSERT INTO empleado (nombre, direccion, telefono, email, fecha_inicio, salario)
+            INSERT INTO EMPLEADO (nombre, direccion, telefono, email, fecha_inicio, salario)
             VALUES (:1, :2, :3, :4, :5, :6)
             """
             self.db.ejecutar(query, (
@@ -21,13 +21,14 @@ class EmpleadoService:
                 empleado._fecha_inicio,
                 empleado._salario
             ))
-            print("Empleado creado con éxito.")
+            return True
         except Exception as e:
-            print("Error al crear empleado:", e)
+            print("❌Error al crear empleado:", e)
+            return False
 
     def listar(self):
         try:
-            self.db.cursor.execute("SELECT * FROM empleado")
+            self.db.cursor.execute("SELECT * FROM EMPLEADO")
             return self.db.cursor.fetchall()
         except Exception as e:
             print("Error al listar empleados:", e)
@@ -36,7 +37,7 @@ class EmpleadoService:
     def actualizar(self, empleado: Empleado):
         try:
             query = """
-            UPDATE empleado SET nombre=:1, direccion=:2, telefono=:3
+            UPDATE EMPLEADO SET nombre=:1, direccion=:2, telefono=:3
             WHERE id_empleado=:4
             """
             self.db.ejecutar(query, (
@@ -51,7 +52,7 @@ class EmpleadoService:
 
     def eliminar(self, id_empleado):
         try:
-            self.db.ejecutar("DELETE FROM empleado WHERE id_empleado=:1", (id_empleado,))
+            self.db.ejecutar("DELETE FROM EMPLEADO WHERE id_empleado=:1", (id_empleado,))
             print("Empleado eliminado.")
         except Exception as e:
             print("Error al eliminar:", e)

@@ -7,14 +7,14 @@ class AsignacionService:
 
     def asignar(self, id_empleado, id_proyecto):
         query = """
-            INSERT INTO empleado_proyecto (id_empleado, id_proyecto)
+            INSERT INTO EMPLEADO_PROYECTO (id_empleado, id_proyecto)
             VALUES (:1, :2)
         """
         self.db.ejecutar(query, (id_empleado, id_proyecto))
 
     def desasignar(self, id_empleado, id_proyecto):
         query = """
-            DELETE FROM empleado_proyecto
+            DELETE FROM EMPLEADO_PROYECTO
             WHERE id_empleado=:1 AND id_proyecto=:2
         """
         self.db.ejecutar(query, (id_empleado, id_proyecto))
